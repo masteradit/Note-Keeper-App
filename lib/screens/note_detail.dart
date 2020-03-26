@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 class NoteDetail extends StatefulWidget {
-
   String appBarTitle;
 
   NoteDetail(this.appBarTitle);
@@ -13,7 +12,6 @@ class NoteDetail extends StatefulWidget {
 }
 
 class NoteDetailState extends State<NoteDetail> {
-
   static var _priorities = ['High', 'Low'];
 
   String appBarTitle;
@@ -30,6 +28,12 @@ class NoteDetailState extends State<NoteDetail> {
     return Scaffold(
       appBar: AppBar(
         title: Text(appBarTitle),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            moveToLastScreen();
+          },
+        ),
       ),
       body: Padding(
         padding: EdgeInsets.only(top: 15.0, left: 10.0, right: 10.0),
