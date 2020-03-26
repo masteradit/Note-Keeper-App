@@ -149,4 +149,8 @@ class NoteDetailState extends State<NoteDetail> {
       ),
     );
   }
+
+  void moveToLastScreen() {
+    Navigator.pop(context);
+  }
 }
