@@ -56,6 +56,9 @@ class NoteListState extends State<NoteList> {
             ),
             onTap: () {
               debugPrint("ListTile Tapped");
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return NoteDetail();
+              }));
             },
           ),
         );
