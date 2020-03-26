@@ -36,6 +36,7 @@ class NoteDetailState extends State<NoteDetail> {
           leading: IconButton(
             icon: Icon(Icons.arrow_back),
             onPressed: () {
+              // Write some code to control things, when user press back button in AppBar.
               moveToLastScreen();
             },
           ),
