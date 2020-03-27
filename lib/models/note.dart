@@ -28,7 +28,7 @@ class Note {
 
   set description(String newDescription) {
     if (newDescription.length <= 255) {
-      this._title = newDescription;
+      this._description= newDescription;
     }
   }
 
