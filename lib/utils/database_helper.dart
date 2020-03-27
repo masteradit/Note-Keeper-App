@@ -21,14 +21,14 @@ class DatabaseHelper {
 
   factory DatabaseHelper() {
     if (_databaseHelper == null) {
-      _databaseHelper = DatabaseHelper.createInstance(); // This code is executed only once, singleton object
+      _databaseHelper = DatabaseHelper
+          .createInstance(); // This code is executed only once, singleton object
     }
 
     return _databaseHelper;
   }
 
   Future<Database> get database async {
-
     if (_database == null) {
       _database = await initialiseDatabase();
     }
@@ -42,12 +42,14 @@ class DatabaseHelper {
     String path = directory.path + 'notes.db';
 
     // Open/create the database at a given path
-    var notesDatabase = await openDatabase(path, version: 1, onCreate: _createDB);
+    var notesDatabase =
+        await openDatabase(path, version: 1, onCreate: _createDB);
     return notesDatabase;
   }
 
   void _createDB(Database db, int newVersion) async {
-    await db.execute('CREATE TABLE $noteTable($colId INTEGER PRIMARY KEY AUTOINCREMENT, $colTitle TEXT, $colDescription TEXT, '
+    await db.execute(
+        'CREATE TABLE $noteTable($colId INTEGER PRIMARY KEY AUTOINCREMENT, $colTitle TEXT, $colDescription TEXT, '
         '$colPriority INTEGER, $colDate TEXT)');
   }
 
@@ -59,7 +61,7 @@ class DatabaseHelper {
     var result = await db.query(noteTable, orderBy: '$colPriority ASC');
     return result;
   }
-  
+
   // Insert Operation: Insert a Note object to database
   Future<int> insertNote(Note note) async {
     Database db = await this.database;
@@ -70,23 +72,40 @@ class DatabaseHelper {
   // Update Operation: Update a Note object and save it to database
   Future<int> updateNote(Note note) async {
     var db = await this.database;
-    var result = await db.update(noteTable, note.toMap(), where: '$colId = ?', whereArgs: [note.id]);
+    var result = await db.update(noteTable, note.toMap(),
+        where: '$colId = ?', whereArgs: [note.id]);
     return result;
   }
 
   // Delete Operation: Delete a Note object from database
   Future<int> deleteNote(int id) async {
     var db = await this.database;
-    var result = await db.rawDelete('DELETE FROM $noteTable WHERE $colId = $id');
+    var result =
+        await db.rawDelete('DELETE FROM $noteTable WHERE $colId = $id');
     return result;
   }
 
   // Get number of objects in database
   Future<int> getCount() async {
     Database db = await this.database;
-    List<Map<String, dynamic>> x = await db.rawQuery('SELECT COUNT (*) FROM $noteTable');
+    List<Map<String, dynamic>> x =
+        await db.rawQuery('SELECT COUNT (*) FROM $noteTable');
     int result = Sqflite.firstIntValue(x);
     return result;
   }
 
+  // Get the 'Map List' [ List<Map> ] and convert it to 'Note List' [ List<Note> ]
+  Future<List<Note>> getNoteList() async {
+    var noteMapList = await getNoteMapList(); // Get 'Map List' from database
+    int count = noteMapList.length;
+
+    List<Note> noteList = List<Note>();
+
+    // For loop to create a 'Note List' from a 'Map List'
+    for (int i = 0; i < count; i++) {
+      noteList.add(Note.fromMapObject(noteMapList[i]));
+    }
+
+    return noteList;
+  }
 }

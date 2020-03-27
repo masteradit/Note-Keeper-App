@@ -7,13 +7,14 @@ import 'package:note_keeper_app/models/note.dart';
 import 'package:note_keeper_app/utils/database_helper.dart';
 
 class NoteDetail extends StatefulWidget {
-  String appBarTitle;
+  final String appBarTitle;
+  final Note note;
 
-  NoteDetail(this.appBarTitle);
+  NoteDetail(this.note, this.appBarTitle);
 
   @override
   State<StatefulWidget> createState() {
-    return NoteDetailState(this.appBarTitle);
+    return NoteDetailState(this.note, this.appBarTitle);
   }
 }
 
@@ -21,11 +22,12 @@ class NoteDetailState extends State<NoteDetail> {
   static var _priorities = ['High', 'Low'];
 
   String appBarTitle;
+  Note note;
 
   TextEditingController titleController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
 
-  NoteDetailState(this.appBarTitle);
+  NoteDetailState(this.note, this.appBarTitle);
 
   @override
   Widget build(BuildContext context) {
